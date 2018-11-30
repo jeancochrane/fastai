@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${FASTAI_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0")
+
+Start a console on your EC2 instance.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+    if [ "${1:-}" = "--help" ]
+    then
+        usage
+    else
+        INSTANCE_PUBLIC_DNS=$(docker-compose \
+                                 -f docker-compose.ci.yml \
+                                 run --rm \
+                                    --workdir "/usr/local/src/deployment/terraform" \
+                                    --entrypoint terraform \
+                                    terraform output instance_public_dns | tr -d '\r')
+
+        ssh ec2-user@$INSTANCE_PUBLIC_DNS
+    fi
+fi

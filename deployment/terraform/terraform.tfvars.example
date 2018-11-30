@@ -1,0 +1,2 @@
+name = "your-name"
+aws_key_pair_public_key = "ssh-rsa <public-key-block-here> your-name@zavea.com"
