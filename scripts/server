@@ -26,6 +26,19 @@ then
             --entrypoint terraform \
             terraform output instance_id | tr -d '\r')
 
+        function stop_instance() {
+            aws --profile rand ec2 stop-instances --instance-ids "${INSTANCE_ID}"
+        }
+
+        trap "{ stop_instance; exit 130; }" SIGINT SIGTERM
+
         aws --profile rand ec2 start-instances --instance-ids "${INSTANCE_ID}"
+
+        echo "Instance started -- press Ctrl+C to exit..."
+
+        while :
+        do
+            sleep 60
+        done
     fi
 fi
