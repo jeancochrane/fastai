@@ -2,9 +2,14 @@
 *.tfstate
 *.tfstate.backup
 *.tfplan
+*.tfvars
 
 # Module directory
 .terraform/
 
-# Local Terraform variables
-*.tfvars
+# Ansible
+deployment/ansible/roles/azavea.*
+*.retry
+
+# Vagrant
+.vagrant
