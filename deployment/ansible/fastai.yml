@@ -9,3 +9,4 @@
   roles:
     - role: "fastai.docker"
     - role: "fastai.environment"
+    - role: "fastai.packages"

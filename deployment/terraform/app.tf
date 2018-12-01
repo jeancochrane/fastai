@@ -8,7 +8,7 @@ resource "aws_instance" "fastai" {
   instance_type = "p2.xlarge"
   key_name      = "${aws_key_pair.fastai.key_name}"
 
-  security_groups             = ["${aws_security_group.fastai.id}"]
+  vpc_security_group_ids      = ["${aws_security_group.fastai.id}"]
   monitoring                  = true
   associate_public_ip_address = true
 

@@ -20,12 +20,16 @@ then
     then
         usage
     else
-        INSTANCE_PUBLIC_DNS=$(docker-compose \
-                                 run --rm \
-                                    --workdir "/usr/local/src/deployment/terraform" \
-                                    --entrypoint terraform \
-                                    terraform output instance_public_dns | tr -d '\r')
+        INSTANCE_ID=$(docker-compose \
+            run --rm --workdir "/usr/local/src/deployment/terraform" \
+            --entrypoint terraform \
+            terraform state show "aws_instance.fastai" |\
+                grep -E " i-[a-zA-Z0-9]{10,}" | cut -d " " -f 42 | tr -d '\r')
 
-        ssh ec2-user@$INSTANCE_PUBLIC_DNS -L 8888:localhost:8888
+        INSTANCE_PUBLIC_DNS=$(aws ec2 describe-instances \
+            --instance-ids ${INSTANCE_ID} \
+            --query 'Reservations[].Instances[].PublicDnsName' | jq -r .[0])
+
+        ssh ubuntu@$INSTANCE_PUBLIC_DNS
     fi
 fi

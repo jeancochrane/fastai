@@ -30,7 +30,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                 terraform plan -out="terraform.tfplan"
                 ;;
             apply)
-                terraform apply
+                terraform apply "terraform.tfplan"
                 ;;
             destroy)
                 terraform destroy

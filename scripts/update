@@ -27,5 +27,16 @@ then
         docker-compose \
             run --rm \
             terraform ./scripts/infra apply
+
+        INSTANCE_ID=$(docker-compose \
+            run --rm --workdir "/usr/local/src/deployment/terraform" \
+            --entrypoint terraform \
+            terraform output instance_id | tr -d '\r')
+
+        ssh -t ubuntu@$INSTANCE_PUBLIC_DNS cd fastai && \
+                                              git pull;  \
+                                              git checkout v0.7.2 && \
+                                              conda env update
+
     fi
 fi
