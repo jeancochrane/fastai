@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "./", "/vagrant"
   config.vm.synced_folder "~/.aws", "/home/vagrant/.aws"
-  config.vm.synced_folder "~/.ssh", "/home/vagrant/.ssh"
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
@@ -37,5 +36,7 @@ Vagrant.configure("2") do |config|
     # su vagrant ./scripts/update
     SHELL
   end
+
+  config.ssh.forward_agent = true
 
 end

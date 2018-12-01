@@ -1,5 +1,13 @@
 version: '3'
 
 services:
-  fastai:
-    build: .
+  terraform:
+    image: quay.io/azavea/terraform:0.11.7
+    volumes:
+      - ./:/usr/local/src
+      - $HOME/.aws:/root/.aws:ro
+    environment:
+      - AWS_PROFILE=${AWS_PROFILE:-rand}
+      - FASTAI_DEBUG=1
+    working_dir: /usr/local/src
+    entrypoint: bash

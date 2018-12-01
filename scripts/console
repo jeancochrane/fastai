@@ -21,12 +21,11 @@ then
         usage
     else
         INSTANCE_PUBLIC_DNS=$(docker-compose \
-                                 -f docker-compose.ci.yml \
                                  run --rm \
                                     --workdir "/usr/local/src/deployment/terraform" \
                                     --entrypoint terraform \
                                     terraform output instance_public_dns | tr -d '\r')
 
-        ssh ec2-user@$INSTANCE_PUBLIC_DNS
+        ssh ec2-user@$INSTANCE_PUBLIC_DNS -L 8888:localhost:8888
     fi
 fi

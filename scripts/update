@@ -21,12 +21,10 @@ then
         usage
     else
         docker-compose \
-            -f docker-compose.ci.yml \
             run --rm \
             terraform ./scripts/infra plan
 
         docker-compose \
-            -f docker-compose.ci.yml \
             run --rm \
             terraform ./scripts/infra apply
     fi

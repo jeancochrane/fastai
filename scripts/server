@@ -21,7 +21,6 @@ then
         usage
     else
         INSTANCE_ID=$(docker-compose \
-            -f docker-compose.ci.yml \
             run --rm --workdir "/usr/local/src/deployment/terraform" \
             --entrypoint terraform \
             terraform output instance_id | tr -d '\r')
