@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
     fi
 
     cd /vagrant
-    # su vagrant ./scripts/update
+    su vagrant ./scripts/update
     SHELL
   end
 
