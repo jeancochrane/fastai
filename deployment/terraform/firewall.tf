@@ -1,5 +1,9 @@
 resource "aws_security_group" "fastai" {
   name = "${var.name}SgFastai"
+
+  tags {
+    Name = "${var.name}SgFastai"
+  }
 }
 
 resource "aws_security_group_rule" "inbound_ssh" {

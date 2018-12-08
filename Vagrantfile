@@ -26,6 +26,8 @@ Vagrant.configure("2") do |config|
     ansible.galaxy_roles_path = "deployment/ansible/roles"
   end
 
+  config.ssh.forward_agent = true
+
   config.vm.provision "shell" do |s|
     s.inline = <<-SHELL
     if ! grep -q "cd /vagrant" "/home/vagrant/.bashrc"; then
@@ -36,7 +38,5 @@ Vagrant.configure("2") do |config|
     su vagrant ./scripts/update
     SHELL
   end
-
-  config.ssh.forward_agent = true
 
 end

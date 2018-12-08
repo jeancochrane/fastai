@@ -57,7 +57,7 @@ $ ssh-add path/to/key.pem
 
 ### Editing environmental variables
 
-First, adjust the `terraform` service in `docker-compose.ci.yml` to set the default
+First, adjust the `terraform` service in `docker-compose.yml` to set the default
   value for `AWS_PROFILE` to the name of your R&D profile.
 
 Then, adjust the value for `aws_profile` in `deployment/ansible/group_vars/all`
@@ -67,6 +67,7 @@ Then, adjust the value for `aws_profile` in `deployment/ansible/group_vars/all`
 
 Run `./scripts/setup` to provision your VM. `setup` will automatically call
       `./scripts/update`, which will create and update all AWS resources for you.
+Run `./scripts/setup` to provision your VM.
 
 ## Developing
 
@@ -93,6 +94,33 @@ Note that `console` **assumes your instance is already running.** In order to
 prevent the two scripts from clobbering one another, the scripts assume that
 `server` is controlling your instance start/stop cycle, and `console` is simply
 attempting to access that server.
+
+### Troubleshooting
+
+#### `IncorrectInstanceState`
+
+Sometimes if you try to start the server too quickly after stopping it,
+`./scripts/server` will raise this error:
+
+```
+An error occurred (IncorrectInstanceState) when calling the StartInstances operation: The instance '<instance-id>' is not in a state from which it can be started.
+```
+
+This is normal, and simply indicates that the previous `StopInstances` operation
+hasn't completed and the instance is still in a pending state. Wait a minute or
+two and try again.
+
+#### `./scripts/console` hangs
+
+There are a few reasons that SSH might hang when you attempt to login to your
+instance:
+
+- You're not on the network whitelisted in the instance CIDR block
+    - Solution: Login to the VPN
+- You haven't added the SSH key for your instance to your SSH agent
+    - Solution: Run `ssh-add /path/to/key.pem`
+- You didn't forward the SSH agent to Vagrant
+    - Solution: Exit the VM and run `vagrant ssh -- -A`
 
 ## Cleaning up
 
