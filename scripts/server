@@ -38,7 +38,13 @@ then
 
         aws ec2 start-instances --instance-ids "${INSTANCE_ID}"
 
-        ssh -t ubuntu@$INSTANCE_PUBLIC_DNS jupyter notebook --notebook-dir fastai --ip 0.0.0.0
+        JUPYTER_NOTEBOOK=/home/ubuntu/src/anaconda3/envs/fastai/bin/jupyter-notebook
+
+        ssh -t ubuntu@$INSTANCE_PUBLIC_DNS $JUPYTER_NOTEBOOK \
+            --notebook-dir fastai \
+            --ip 0.0.0.0 \
+            --port 8888 \
+            --NotebookApp.custom_display_url="${INSTANCE_PUBLIC_DNS}:8888"
 
         stop_instance
     fi

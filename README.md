@@ -122,6 +122,13 @@ instance:
 - You didn't forward the SSH agent to Vagrant
     - Solution: Exit the VM and run `vagrant ssh -- -A`
 
+#### `./scripts/server` exits with `ssh: Could not resolve hostname : Name or
+service not known`
+
+This can happen if the AWS CLI `StartInstances` command returns before the
+public hostname of the instance is resolvable. In this case, try running
+`./scripts/server` again and you should see the correct output.
+
 ## Cleaning up
 
 If you'd like to delete AWS resources, use the `infra` script:
