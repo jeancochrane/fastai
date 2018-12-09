@@ -66,8 +66,11 @@ Then, adjust the value for `aws_profile` in `deployment/ansible/group_vars/all`
 ### Provision resources
 
 Run `./scripts/setup` to provision your VM. `setup` will automatically call
-      `./scripts/update`, which will create and update all AWS resources for you.
-Run `./scripts/setup` to provision your VM.
+`./scripts/update`, which will create and update all AWS resources for you.
+
+After the server is provisioned, it will need a few minutes to finish running
+setup scripts before it becomes ready to serve files. Plan to take a few minutes
+for a break before you start the next steps.
 
 ## Developing
 
@@ -76,7 +79,7 @@ To start developing, SSH into your VM with `vagrant ssh -- -A` in order to enabl
   from inside the VM.
 
 To **start your instance and run a Jupyter notebook**, run the `server` script in the VM
-  and visit the URL pasted in the output::
+  and visit the URL pasted in the output:
 
 ```
 vagrant@vagrant:/vagrant$ ./scripts/server
@@ -122,11 +125,11 @@ instance:
 - You didn't forward the SSH agent to Vagrant
     - Solution: Exit the VM and run `vagrant ssh -- -A`
 
-#### `./scripts/server` exits with `ssh: Could not resolve hostname : Name or
-service not known`
+#### `./scripts/server` exits with `ssh: Could not resolve hostname : Name or service not known`
 
 This can happen if the AWS CLI `StartInstances` command returns before the
-public hostname of the instance is resolvable. In this case, try running
+public hostname of the instance is resolvable. In this case, wait a few seconds
+and try running
 `./scripts/server` again and you should see the correct output.
 
 ## Cleaning up

@@ -27,14 +27,5 @@ then
         docker-compose \
             run --rm \
             terraform ./scripts/infra apply
-
-        INSTANCE_ID=$(docker-compose \
-            run --rm --workdir "/usr/local/src/deployment/terraform" \
-            --entrypoint terraform \
-            terraform state show "aws_instance.fastai" |\
-                grep -E " i-[a-zA-Z0-9]{10,}" | cut -d " " -f 42 | tr -d '\r')
-
-        aws ec2 stop-instances --instance-ids "${INSTANCE_ID}"
-
     fi
 fi

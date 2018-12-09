@@ -1,6 +1,6 @@
 resource "aws_instance" "fastai" {
   ami           = "${var.aws_instance_ami}"
-  instance_type = "p3.xlarge"
+  instance_type = "p2.xlarge"
   key_name      = "${aws_key_pair.fastai.key_name}"
 
   vpc_security_group_ids      = ["${aws_security_group.fastai.id}"]
