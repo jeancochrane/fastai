@@ -28,7 +28,7 @@ then
             run --rm \
             terraform ./scripts/infra apply
 
-        echo "Provision complete!"
+        echo "Update complete!"
         echo "Wait a few minutes for the server to finish initializing, and then start developing."
     fi
 fi

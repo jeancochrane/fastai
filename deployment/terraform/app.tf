@@ -7,6 +7,7 @@ resource "aws_instance" "fastai" {
   monitoring                  = true
   associate_public_ip_address = true
   user_data                   = "${data.template_file.user_data.rendered}"
+  instance_profile            = "${aws_instance_profile.fastai.name}"
 
   root_block_device {
     volume_type = "standard"
@@ -26,4 +27,8 @@ resource "aws_key_pair" "fastai" {
 
 data "template_file" "user_data" {
   template = "${file("templates/cloud-config.tpl")}"
+
+  vars {
+    instance_id = "${aws_instance.fastai.id}"
+  }
 }
